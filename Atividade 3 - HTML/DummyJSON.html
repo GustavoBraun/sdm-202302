@@ -56,6 +56,7 @@
         <h1>Consultar DummyJson por ID!</h1>
         <input type="number" id="numero">
         <button onclick="consultar(numero.value)">Consultar</button>
+        <button onclick="limpar(resp)">Limpar</button>
         <div class="resposta">
             <span>
                 <p>Resposta:</p>
@@ -66,6 +67,10 @@
         </div>
     </div>
     <script>
+
+        function limpar(div) {
+            div.innerHTML = '';
+        }
 
         function imprimir(objeto) {
             let mensagem;
