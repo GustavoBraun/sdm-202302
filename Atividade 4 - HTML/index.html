@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cartão (Card)</title>
+    <style>
+        html,
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+        }
+
+        .cartao {
+            width: 12.6rem;
+            height: 27.3rem;
+            padding: 1rem;
+            margin: 1rem auto;
+            border-radius: .7rem;
+            border: .1rem #c9c7c7 solid;
+            /* offset-x | offset-y | blur-radius | spread-radius | color */
+            box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .titulo {
+            margin: 0 0 1rem 0;
+        }
+
+        .imagem {
+            width: 12.5rem;
+            height: 12.5rem;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            color: white;
+            padding: .3rem 2rem;
+            background-color: blue;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cartao">
+        <h1 class="titulo">Ana Laura</h1>
+        <div class="corpo">
+            <img class="imagem" src="./assets/img/Bocchi-the-Rock.jpg" alt="imagem do cartão" />
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Unde est, officiis excepturi ullam laborum minima eaque in quisquam.
+            </p>
+            <div>
+                <footer class="rodape">
+                    <a href="curriculo.html">Currículo</a>
+                    <button>Ok</button>
+                </footer>
+            </div>
+</body>
+
+</html>
