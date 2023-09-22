@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fetch</title>
+    <style>
+        html,
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+        }
+
+        main {
+            width: 51rem;
+            margin: 1rem auto;
+        }
+
+        input[type="number"],
+        button {
+            text-align: right;
+            padding: 0.5rem;
+        }
+
+        input[type="number"] {
+            width: 10rem;
+            margin-bottom: 0.5rem;
+        }
+
+        button {
+            margin-bottom: 0.5rem;
+        }
+
+        #respGet {
+            padding: 0.5rem;
+            background-color: green;
+
+            color: white;
+            width: 50rem;
+        }
+
+        #respPost {
+            padding: 0.5rem;
+            background-color: blue;
+
+            color: white;
+            width: 50rem;
+        }
+        
+        #respPut {
+            padding: 0.5rem;
+            background-color: rgb(15, 99, 224);
+            color: white;
+            width: 50rem;
+        }
+        
+        #respPatch {
+            padding: 0.5rem;
+            background-color: rgb(199, 15, 153);
+
+            color: white;
+            width: 50rem;
+        }
+        #respDelete {
+            padding: 0.5rem;
+            background-color: red;
+
+            color: white;
+            width: 50rem;
+        }
+        #respFilter {
+            padding: 0.5rem;
+            background-color: rgb(228, 138, 3);
+
+            color: white;
+            width: 50rem;
+        }
+
+        .campo {
+            color: yellow;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+
+        function zeraHTML(div) {
+            div.innerHTML = '';
+        }
+
+        function imprime(objeto) {
+            var mensagem = `
+                <br>
+                {
+                <br>
+                "<span class='campo'>id</span>": ${objeto.id},
+                <br>
+                "<span class='campo'>userId</span>": ${objeto.userId},
+                <br>
+                "<span class='campo'>title</span>": ${objeto.title},
+                <br>
+                "<span class='campo'>body</span>": ${objeto.body}
+                <br>
+                }
+                <br>`
+            return mensagem;
+        }
+
+        function imprimeArray(objeto) {
+            var mensagem;
+            objeto.forEach((obj) => {
+                mensagem += `
+                    <br>
+                    {
+                    <br>
+                    "<span class='campo'>id</span>": ${obj.id},
+                    <br>
+                    "<span class='campo'>userId</span>": ${obj.userId},
+                    <br>
+                    "<span class='campo'>title</span>": ${obj.title},
+                    <br>
+                    "<span class='campo'>body</span>": ${obj.body}
+                    <br>
+                    }
+                    <br>
+                `
+            });
+            return mensagem;
+        }
+
+        async function getPostagemPorId(id) {
+            await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
+                .then((response) => response.json())
+                .then((json) => {
+                    console.log(json);
+                    respjsonGetPorId.innerHTML = imprime(json);
+                });
+        }
+
+        async function getPostagem() {
+            await fetch(`https://jsonplaceholder.typicode.com/posts`)
+                .then((response) => response.json())
+                .then((json) => {
+                    console.log(json);
+                    respjsonGet.innerHTML = imprimeArray(json);
+                })
+        }
+
+        async function postPostagem() {
+            fetch(`https://jsonplaceholder.typicode.com/posts`, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+                body: JSON.stringify({
+                    title: 'Nova Postagem',
+                    body: 'Essa é a minha nova postagem',
+                    userId: 1
+                }),
+            })
+                .then((response) => response.json())
+                .then((json) => {
+                    console.log(json);
+                    respjsonPost.innerHTML = imprime(json);
+                })
+
+        }
+
+        async function putPostagem() {
+            fetch(`https://jsonplaceholder.typicode.com/posts/1`, {
+                method: 'PUT',
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+                body: JSON.stringify({
+                    id: 1,
+                    title: 'Minha Mais Nova Postagem',
+                    body: 'Essa é a atualização da minha mais nova postagem! :D',
+                    userId: 1,
+                })
+            })
+                .then((response) => response.json())
+                .then((json) => {
+                    console.log(json);
+                    respjsonPut.innerHTML = imprime(json);
+                });
+        }
+
+        async function patchPostagem(id) {
+            fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-type': 'application/json; charset=UTF-8' },
+                body: JSON.stringify({
+                    title: 'Minha Mais Nova Postagem Modificada! :)'
+                }),
+            })
+                .then((response) => response.json())
+                .then((json) => {
+                    console.log(json);
+                    respjsonPatch.innerHTML = imprime(json);
+                })
+        }
+
+        async function deletarPostagem(id) {
+            fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+                method: 'DELETE'
+            });
+        }
+
+        async function filtrarPostagens(id) {
+            fetch(`https://jsonplaceholder.typicode.com/posts?userId=${id}`)
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(json);
+                respjsonFiltrar.innerHTML = imprimeArray(json);
+            })
+        }
+
+    </script>
+</head>
+
+<body>
+    <main>
+        <h1>Método para ler postagens por ID.</h1>
+        <input id="numeroGet" type="number" min="1" max="100" value="1">
+        <button onclick="getPostagemPorId(numeroGet.value)">Buscar</button>
+        <button onclick="zeraHTML(respjsonGetPorId)">Resetar</button>
+        <div id="respGet">
+            <p class="campo">Resposta:</p>
+            <p id="respjsonGetPorId"></p>
+        </div>
+
+        <h1>Método para ler TODAS as postagens.</h1>
+        <button onclick="getPostagem()">Buscar</button>
+        <button onclick="zeraHTML(respjsonGet)">Resetar</button>
+        <div id="respGet">
+            <p class="campo">Resposta:</p>
+            <p id="respjsonGet"></p>
+        </div>
+
+        <h1>Método para postar.</h1>
+        <button onclick="postPostagem()">Enviar</button>
+        <button onclick="zeraHTML(respjsonPost)">Resetar</button>
+        <div id="respPost">
+            <p class="campo">Resposta:</p>
+            <p id="respjsonPost"></p>
+        </div>
+
+        <h1>Método para atualizar.</h1>
+        <button onclick="putPostagem()">Atualizar</button>
+        <button onclick="zeraHTML(respjsonPut)">Resetar</button>
+        <div id="respPut">
+            <p class="campo">Resposta:</p>
+            <p id="respjsonPut"></p>
+        </div>
+
+        <h1>Método para modificar.</h1>
+        <input id="numeroPatch" type="number" min="1" max="100" value="1">
+        <button onclick="patchPostagem(numeroPatch.value)">Modificar</button>
+        <button onclick="zeraHTML(respjsonPatch)">Resetar</button>
+        <div id="respPatch">
+            <p class="campo">Resposta:</p>
+            <p id="respjsonPatch"></p>
+        </div>
+
+        <h1>Método para deletar.</h1>
+        <input id="numeroDelete" type="number" min="1" max="100" value="1">
+        <button onclick="deletarPostagem(numeroDelete.value)">Deletar</button>
+        <div id="respDelete">
+            <p class="campo">Resposta:</p>
+            <p id="respjsonDelete"></p>
+        </div>
+
+        <h1>Método para filtrar.</h1>
+        <input id="usuarioFiltrar" type="number" min="1" max="10" value="1">
+        <button onclick="filtrarPostagens(usuarioFiltrar.value)">Filtrar</button>
+        <button onclick="zeraHTML(respjsonFiltrar)">Resetar</button>
+        <div id="respFilter">
+            <p class="campo">Resposta:</p>
+            <p id="respjsonFiltrar"></p>
+        </div>
+    </main>
+</body>
+
+</html>
