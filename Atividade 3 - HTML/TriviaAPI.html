@@ -69,10 +69,10 @@
         }
 
         function imprimir(objeto) {
-            let mensagem;
-            
+            let mensagem = `<hr>`;
             objeto.results.forEach(element => {
-                mensagem = `Categoria: ${element.category}.                
+                mensagem += `
+                Categoria: ${element.category}.                
                 <br/>
                 Pergunta: ${element.question}.
                 <br/>
@@ -85,8 +85,8 @@
                 element.incorrect_answers.forEach(answer => {
                 mensagem += `${answer}. <br>`
                 })
+                mensagem += `<hr>`
             });
-            
             return mensagem;
 
         }
@@ -95,7 +95,6 @@
             await fetch(`https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple`)
                 .then((response) => response.json())
                 .then((json) => {
-                    console.log(json);
                     resp.innerHTML = imprimir(json)    
                 })
         }
