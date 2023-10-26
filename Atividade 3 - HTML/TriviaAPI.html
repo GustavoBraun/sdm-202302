@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DummyJson</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+        }
+
+        .main {
+            width: 51rem;
+            margin: 1rem auto;
+        }
+
+        .main h1 {
+            color: blue;
+            text-align: center;
+        }
+
+        .resposta span p {
+            font-size: 1.5rem;
+        }
+
+        .imagens { 
+            grid-template-columns: 3fr;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .imagens img {
+            margin: 5rem;
+            width: 200px;
+            height: 200px;
+        }
+        .thumbnail img {
+            margin: 0 8rem;
+        }
+        #resp {
+            padding: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <h1>Consultar TRIVIA API!</h1>
+        <button onclick="consultar()">Consultar</button>
+        <button onclick="limpar(resp)">Limpar</button>
+        <div class="resposta">
+            <span>
+                <p id="resp"></p>
+            </span>
+        </div>
+    </div>
+    <script>
+
+        function limpar(div) {
+            div.innerHTML = '';
+        }
+
+        function imprimir(objeto) {
+            let mensagem;
+            
+            objeto.results.forEach(element => {
+                mensagem = `Categoria: ${element.category}.                
+                <br/>
+                Pergunta: ${element.question}.
+                <br/>
+                Tipo de pergunta: ${element.type}.
+                <br/>
+                Resposta correta: ${element.correct_answer}.
+                <br/>
+                Respostas incorretas: <div id='respostas_incorretas'></div>
+                `
+                element.incorrect_answers.forEach(answer => {
+                mensagem += `${answer}. <br>`
+                })
+            });
+            
+            return mensagem;
+
+        }
+
+        async function consultar() {
+            await fetch(`https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple`)
+                .then((response) => response.json())
+                .then((json) => {
+                    console.log(json);
+                    resp.innerHTML = imprimir(json)    
+                })
+        }
+
+    </script>
+</body>
+
+</html>
