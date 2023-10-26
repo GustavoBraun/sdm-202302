@@ -1,0 +1,45 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  background-color: #333;
+  color: white;
+}
+
+.cartao {
+  width: 300px;
+  margin: 16px auto;
+  padding: 20px;
+  background-color: #222;
+  border-radius: 10px;
+}
+
+h1 {
+  text-align: center;
+  margin: 0;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  color: white;
+  padding: 9px 25px;
+  background-color: blue;
+  border: none;
+}
+
+img {
+  width: 300px;
+  height: 250px;
+  object-fit: scale-down;
+}
+
+a {
+  text-decoration: none;
+}
+
+.conteudo {
+  font-size: 16px;
+}
