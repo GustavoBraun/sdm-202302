@@ -10,7 +10,7 @@ TRABALHADORES = [{'cpf': 1, 'nome': 'Ana', 'horasTrabalhadas': 8, 'valorHora' : 
 {'cpf': 4, 'nome': 'Diogo', 'horasTrabalhadas': 4, 'valorHora' : 45.78},
 {'cpf': 5, 'nome': 'Ester', 'horasTrabalhadas': 5, 'valorHora' : 45.78}]
 
-def aborta_se_o_produto_nao_existe(cpf):
+def aborta_se_o_trabalhador_nao_existe(cpf):
     encontrei = False
     for trabalhador in TRABALHADORES:
         if trabalhador['cpf'] == int(cpf):
@@ -29,18 +29,18 @@ parser.add_argument('valorHora', type=float, help='Valor da hora')
 # 3) Atualiza (substitui) um produto.
 class Trabalhador(Resource):
     def get(self, cpf):
-        aborta_se_o_produto_nao_existe(cpf)
+        aborta_se_o_trabalhador_nao_existe(cpf)
         for trabalhador in TRABALHADORES:
             if trabalhador['cpf'] == int(cpf):
                 return trabalhador
         
     def delete(self, cpf):
-        aborta_se_o_produto_nao_existe(cpf)
+        aborta_se_o_trabalhador_nao_existe(cpf)
         del TRABALHADORES[int(cpf)]
         return '', 204, #204: No Content
     
     def put(self, cpf):
-        aborta_se_o_produto_nao_existe(cpf)
+        aborta_se_o_trabalhador_nao_existe(cpf)
         args = parser.parse_args()
         for trabalhador in TRABALHADORES:
             if trabalhador['cpf'] == int(cpf):
