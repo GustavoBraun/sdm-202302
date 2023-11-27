@@ -7,7 +7,7 @@ api = Api(app)
 PRODUTOS = [{'id' : 0, 'nome': 'sapato', 'preco': 123.55},
             {'id' : 1, 'nome': 'camisa', 'preco': 50.55},
             {'id' : 2, 'nome': 'calça', 'preco': 112.55},
-            {'id' : 3, 'nome': 'bermuda', 'preco': 73.55},]
+            {'id' : 3, 'nome': 'bermuda', 'preco': 73.55}]
 
 ALUNOS = [{'matricula' : 0, 'nome' : 'Ana', 'nota' : 72.00},
           {'matricula' : 1, 'nome' : 'Bruna', 'nota' : 71.50},
