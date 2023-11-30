@@ -1,11 +1,13 @@
 # Importar a classe Flask, objeto request e o objeto jsonify:
 from flask import Flask, request, jsonify
+from flask_restful import reqparse, Api, Resource
 import sqlite3
 
 
 # Criar o objeto Flask app:
 app = Flask(__name__)
 
+api = Api(app)
 
 # Criar o banco de dados aluno caso não existe
 conexao = sqlite3.connect('aluno.db', check_same_thread=False)
@@ -13,19 +15,38 @@ conexao = sqlite3.connect('aluno.db', check_same_thread=False)
 cursor = conexao.cursor()
 
 sql = 'create table IF NOT EXISTS aluno('\
-'idAluno integer primary key autoincrement,'\
+'matricula integer primary key autoincrement,'\
 'nome varchar(100) not null,'\
-'sexo char)'
+'sexo char,'\
+ 'cpf varchar(11),'\
+ 'endereco varchar(50),'\
+ 'email varchar(50),'\
+ 'celular varchar(11),'\
+ 'nota char)'
+
+parserAlunos = reqparse.RequestParser()
+parserAlunos.add_argument('matricula', type = int, help = 'Matricula identificadora do aluno.')
+parserAlunos.add_argument('nome', type = str, help = 'Nome do aluno.')
+parserAlunos.add_argument('sexo', type = str, help = 'Sexo do aluno')
+parserAlunos.add_argument('cpf', type = str, help = 'CPF do aluno')
+parserAlunos.add_argument('endereco', type = str, help = 'Endereço do aluno')
+parserAlunos.add_argument('celular', type = str, help = 'Telefone de contato do aluno')
+parserAlunos.add_argument('nota', type = str, help = 'Nota do aluno.')
 
 cursor.execute(sql)
 
-# http://127.0.0.1:5000/alunos
-@app.route('/alunos', methods=['GET'])
-def retornar_todos_os_produtos():
-    sql = 'select * from aluno'
-    alunos = cursor.execute(sql)
-    return alunos
+class Aluno(Resource):
+    def get(self):
+        sql = 'select * from aluno'
+        alunos = cursor.execute(sql)
+        return alunos 
 
+    def post(self):
+        args = parserAlunos.parse_args()
+        sql = 'insert into aluno(matricula, nome, sexo, cpf, endereco, email, celular, nota) values(?, ?, ?, ?, ?, ?, ?, ?)'
+        cursor.execute(sql, [args['matricula'], args['nome'], args['sexo'], args['cpf'], args['endereco'], args['email'], args['celular'], args['nota']])
+        conexao.commit()
+        
 @app.route('/alunos/<int:idAluno>', methods=['GET'])
 def retornar_dados_do_produto_informado(idAluno):
     sql = 'select * from aluno where idAluno = ?'
